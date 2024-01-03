@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+// app.js
+
+import React, { useState } from 'react';
+import ChartComponent1 from './ChartComponent1.js';
+import ChartComponent2 from './ChartComponent2.js';
 
 function App() {
+  const [mode, setMode] = useState('');
+
+  const handleModeChange = (selectedMode) => {
+    setMode(selectedMode);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={() => handleModeChange('mode1')}>Chế độ 1</button>
+      <button onClick={() => handleModeChange('mode2')}>Chế độ 2</button>
+
+      {mode === 'mode1' && <ChartComponent1 />}
+      {mode === 'mode2' && <ChartComponent2 />}
     </div>
   );
 }
