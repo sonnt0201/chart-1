@@ -1,0 +1,16 @@
+.table {
+    border-radius: 2rem !important;
+}
+.table thead > tr > th {
+    font-weight: bolder;
+    color: #4F6F52;
+}
+
+.chunk  {
+    color: #756AB6 !important;
+    
+}
+.chunk:hover {
+    color: #900C3F !important;
+    text-decoration: none;
+}

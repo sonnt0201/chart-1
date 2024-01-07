@@ -2,28 +2,33 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import axios from "axios";
-
-function App() {
+import { MyTable } from "./MyTable";
+import { Selector } from "./Selector";
+import { Button } from "react-bootstrap";
+import "./RealtimeChart.css"
+function RealtimeChart() {
   const [data, setData] = useState(null);
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
- const [timestamp, setTimestamp]=useState(Math.floor(new Date().getTime()/1000));
+  const [timestamp, setTimestamp] = useState(
+    Math.floor(new Date().getTime() / 1000)
+  );
   const [isRunning, setIsRunning] = useState(true);
 
-
-
+  const [records, setRecords] = useState(null);
+  const [espID, setEspID] = useState(0);
 
   // call whenever begin changes
   useEffect(() => {
     fetchData();
     // call fetch function
-  }, [timestamp]);
+  }, [timestamp, espID]);
 
   useEffect(() => {
     // setInterval goes here.
     // Interval does increase "begin" ONLY
     const intervalId = setInterval(() => {
       if (isRunning) {
-        setTimestamp(Math.floor(new Date().getTime()/1000));
+        setTimestamp(Math.floor(new Date().getTime() / 1000));
       }
     }, 1000);
 
@@ -48,9 +53,10 @@ function App() {
 
   const responseToDataObject = (responseData) => {
     const payload = responseData.payload;
-
+    setRecords(payload);
     const arr = [];
     payload.forEach((record) => {
+      if (record["esp_id"] != espID) return;
       var start = record.timestamp * 1000;
       const vols = record.voltages;
       vols.forEach((vol) => {
@@ -87,14 +93,18 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Đồ thị 1</h1>
-      <button onClick={toggleRunning}>
-        {isRunning ? "Dừng" : "Tiếp tục"}
-      </button>
-      {chartData && <Line data={chartData} />}
-    </div>
+    <>
+     
+      <Selector setEspID={setEspID} espID={espID} />
+      {/* <Button onAbort={} */}
+      <Button className="Button" variant={isRunning ? "outline-danger": "outline-success"} onClick={toggleRunning}>{isRunning ? "Pause" : "Play"}</Button>
+      <span>
+        {chartData && <Line data={chartData} />}
+
+        <MyTable records={records} />
+      </span>
+    </>
   );
 }
 
-export default App;
+export default RealtimeChart;

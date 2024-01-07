@@ -1,9 +1,10 @@
 // app.js
 
+
 import React, { useState } from 'react';
 import ChartComponent1 from './ChartComponent1.js';
-import ChartComponent2 from './ChartComponent2.js';
-
+import RealtimeChart from './RealtimeChart.js';
+import "./App.css"
 function App() {
   const [mode, setMode] = useState('');
 
@@ -12,12 +13,14 @@ function App() {
   };
 
   return (
-    <div>
-      <button onClick={() => handleModeChange('mode1')}>Chế độ 1</button>
-      <button onClick={() => handleModeChange('mode2')}>Chế độ 2</button>
+    <div className='App'>
+      <h1>Realtime Chart</h1>
+      {/* <button onClick={() => handleModeChange('mode1')}>Xem từ đầu</button> */}
+      {/* <button onClick={() => handleModeChange('mode2')}>Thời gian thực</button> */}
 
-      {mode === 'mode1' && <ChartComponent1 />}
-      {mode === 'mode2' && <ChartComponent2 />}
+      {/* {mode === 'mode1' && <ChartComponent1 />} */}
+
+      {<RealtimeChart />}
     </div>
   );
 }
